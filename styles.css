@@ -545,6 +545,46 @@ p  { margin: 0 0 1em; color: var(--text-soft); }
 }
 [data-theme="dark"] .tag-cloud span:hover { color: var(--gold); border-color: var(--gold); }
 
+/* Skills 3-column layout */
+.skills-3col {
+  grid-template-columns: 1fr 1.4fr 1fr;
+  align-items: stretch;
+}
+.skills-3col .skill-card { height: 100%; }
+
+.expertise-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+}
+.expertise-list li {
+  position: relative;
+  padding: .55rem 0 .55rem 1.1rem;
+  font-size: .92rem;
+  font-weight: 400;
+  color: var(--text-soft);
+  border-bottom: 1px dashed var(--line);
+  line-height: 1.6;
+}
+.expertise-list li:last-child { border-bottom: 0; }
+.expertise-list li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 1.05rem;
+  width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+.expertise-list li strong {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--gold);
+  margin-right: .25rem;
+  letter-spacing: .01em;
+}
+
 /* ----- Projects ----- */
 .projects-grid {
   display: grid;
@@ -692,6 +732,7 @@ p  { margin: 0 0 1em; color: var(--text-soft); }
   .hero-card { order: -1; max-width: 480px; }
   .about-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr; }
+  .skills-3col { grid-template-columns: 1fr; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
 }

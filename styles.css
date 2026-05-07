@@ -635,6 +635,153 @@ p  { margin: 0 0 1em; color: var(--text-soft); }
 .project-stack li::after { content: "·"; margin-left: .35rem; color: var(--line); }
 .project-stack li:last-child::after { content: ""; }
 
+/* ----- Flip card project ----- */
+.project-flip {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  perspective: 1200px;
+  cursor: pointer;
+  overflow: visible;
+  align-self: stretch;
+  /* Center this card horizontally when it lands alone in its row */
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 100%;
+  max-width: 420px;
+}
+.project-flip::before { display: none; }
+.project-flip:hover { transform: none; box-shadow: none; border-color: transparent; }
+.project-flip:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: var(--radius); }
+
+.project-flip-inner {
+  position: relative;
+  display: grid;
+  grid-template-areas: "stack";
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  transform-style: preserve-3d;
+  transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+}
+.project-flip.is-flipped .project-flip-inner { transform: rotateY(180deg); }
+
+.project-face {
+  grid-area: stack;
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.65rem;
+  box-shadow: var(--shadow-sm);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: rotateY(0deg); /* force own 3D context (Safari fix) */
+  isolation: isolate;
+  transition: border-color .25s var(--ease), box-shadow .25s var(--ease);
+}
+
+.project-front {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(420px 220px at 50% 30%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 70%),
+    var(--surface);
+  border-color: color-mix(in srgb, var(--gold) 35%, var(--line));
+  overflow: hidden;
+}
+.project-front::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 30%, transparent), transparent 60%);
+  opacity: 0;
+  transition: opacity .3s var(--ease);
+  pointer-events: none;
+}
+.project-flip:hover .project-front { border-color: var(--gold); box-shadow: var(--shadow-md); }
+.project-flip:hover .project-front::after { opacity: 1; }
+
+.flip-hint {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: .85;
+}
+.flip-hint svg { animation: flipSpin 4s linear infinite; }
+.project-flip:hover .flip-hint { color: var(--gold); }
+@keyframes flipSpin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.flip-front-content { position: relative; z-index: 1; }
+.flip-amp {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(3.6rem, 7vw, 5.2rem);
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(120deg, var(--navy), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: .25rem;
+}
+.project-front h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: .01em;
+}
+.flip-tagline {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: .5rem 0 0;
+}
+
+.project-back {
+  transform: rotateY(180deg);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--navy) 6%, var(--surface)), var(--surface));
+  border-color: color-mix(in srgb, var(--gold) 25%, var(--line));
+  justify-content: center;
+}
+[data-theme="dark"] .project-back {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--gold) 8%, var(--surface)), var(--surface));
+}
+.project-back .project-tag { margin-bottom: .55rem; }
+.project-back h3 { margin: 0 0 .65rem; font-size: 1.1rem; }
+.project-back p { font-size: .92rem; margin: 0 0 1rem; }
+.flip-back-hint {
+  margin-top: auto !important;
+  font-family: var(--font-mono);
+  font-size: .7rem !important;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted) !important;
+  text-align: right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-flip-inner { transition: none; }
+  .flip-hint svg { animation: none; }
+}
+
 /* ----- Contact ----- */
 .contact-grid {
   display: grid;

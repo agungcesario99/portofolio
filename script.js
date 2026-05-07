@@ -164,4 +164,19 @@
   form?.querySelectorAll('input, textarea').forEach(el => {
     el.addEventListener('input', () => el.classList.remove('invalid'));
   });
+
+  // ---------- Flip card (projects) ----------
+  document.querySelectorAll('.project-flip').forEach(card => {
+    const flip = () => {
+      const flipped = card.classList.toggle('is-flipped');
+      card.setAttribute('aria-pressed', String(flipped));
+    };
+    card.addEventListener('click', flip);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        flip();
+      }
+    });
+  });
 })();
